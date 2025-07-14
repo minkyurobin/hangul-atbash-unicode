@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>한글 아토바쉬 암호기</title>
 
-    <!-- Spoqa Han Sans Neo 웹폰트 CDN -->
-    <link href="https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" />
-
+    <!-- Apple SD Gothic Neo 및 Noto Sans KR 웹폰트 CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
     <style>
         /* 전체 초기화 */
         * {
@@ -18,10 +17,9 @@
 
         body, html {
             height: 100%;
-            background: url('https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Spoqa Han Sans Neo', 'Nanum Gothic', 'Noto Sans KR', sans-serif;
-            color: #d1c4e9;
+            background: linear-gradient(135deg, #1a0b2e 0%, #2e004e 50%, #1a0b2e 100%);
+            font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+            color: #f0eaff;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -34,10 +32,10 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(50, 10, 70, 0.6);
-            padding: 1rem 0;
+            background: rgba(30, 10, 50, 0.8);
+            padding: 1.5rem 0;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             z-index: 1000;
         }
 
@@ -45,7 +43,7 @@
             font-weight: 900;
             font-size: 2.5rem;
             letter-spacing: -0.02em;
-            color: #c1b9ff;
+            color: #bb86fc;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
             user-select: none;
         }
@@ -53,11 +51,154 @@
         .container {
             width: 100%;
             max-width: 720px;
-            background: rgba(80, 40, 120, 0.4);
+            background: rgba(50, 20, 70, 0.5);
             border-radius: 20px;
             padding: 2.5rem 3rem;
-            box-shadow: 0 0 30px #6f54d1;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(200, 180, 255, 0.2);
-            margin-top
+            box-shadow: 0 0 30px #bb86fc;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(187, 134, 252, 0.3);
+            margin-top: 6rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+            color: #d1c4e9;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            font-size: 1.15rem;
+            border-radius: 12px;
+            background: rgba(187, 134, 252, 0.2);
+            border: none;
+            color: #f0eaff;
+            font-family: inherit;
+            box-shadow: inset 0 0 10px rgba(187, 134, 252, 0.5);
+            resize: vertical;
+            text-align: left;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+
+        select:focus, textarea:focus {
+            outline: none;
+            background: rgba(187, 134, 252, 0.4);
+            box-shadow: 0 0 15px #bb86fc;
+        }
+
+        button {
+            margin-top: 1.5rem;
+            width: 100%;
+            padding: 1.3rem 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #f0eaff;
+            background: linear-gradient(135deg, #bb86fc, #9d4edd);
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(187, 134, 252, 0.7);
+            transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #9d4edd, #bb86fc);
+            transform: scale(1.02);
+            box-shadow: 0 12px 24px rgba(187, 134, 252, 0.9);
+        }
+
+        #output {
+            margin-top: 1rem;
+            background: rgba(50, 20, 70, 0.4);
+            border-radius: 12px;
+            min-height: 140px;
+            padding: 2rem;
+            font-size: 1.3rem;
+            color: #f0eaff;
+            white-space: pre-wrap;
+            user-size: text;
+            font-weight: 400;
+            text-align: left;
+            font-family: inherit;
+            box-shadow: inset 0 0 15px rgba(187, 134, 252, 0.5);
+            line-height: 1.8;
+        }
+
+        #output.converted {
+            animation: flash 0.3s;
+        }
+
+        @keyframes flash {
+            0% { background-color: rgba(187, 134, 252, 0.5); }
+            100% { background-color: rgba(50, 20, 70, 0.4); }
+        }
+
+        #copyBtn {
+            margin-top: 0.6rem;
+            background: #9d4edd;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            color: #f0eaff;
+            box-shadow: 0 5px 12px rgba(157, 78, 221, 0.7);
+            transition: background 0.3s ease, transform 0.25s ease;
+            font-size: 1rem;
+        }
+
+        #copyBtn:hover {
+            background: #bb86fc;
+            transform: scale(1.02);
+        }
+
+        .footer {
+            margin-top: 2.3rem;
+            font-size: 0.9rem;
+            text-align: center;
+            color: #d1c4e9;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>한글 아토바쉬 암호기</h1>
+</header>
+
+<main class="container" role="main" aria-label="한글 아토바쉬 암호기">
+    <label for="method">암호화 방식 선택</label>
+    <select id="method" aria-label="암호화 방식 선택">
+        <option value="unicode">유니코드 완성형 대칭 치환</option>
+        <option value="jamo">초성·중성·종성 자모 대칭 치환</option>
+    </select>
+
+    <label for="input">원문 입력</label>
+    <textarea id="input" rows="5" placeholder="한글 문장을 입력하세요..."></textarea>
+
+    <button onclick="convert()">변환하기</button>
+
+    <label for="output">변환 결과</label>
+    <div id="output" tabindex="0" aria-live="polite" aria-atomic="true"></div>
+    <button id="copyBtn" onclick="copyOutput()">복사하기</button>
+
+    <div class="footer">© 2025 제민규의 아토바쉬 암호기</div>
+</main>
+
+<script>
+    const CHO = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+    const JUNG = ["ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"];
+    const JONG = ["","ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+
+    const HANGUL_START = 0xAC00;
+    const HANGUL_END = 0xD7A3;
+
+    function atbashUnicode(ch) {
+        const code = ch.charCodeAt(0);
+        if (code >= HANGUL
