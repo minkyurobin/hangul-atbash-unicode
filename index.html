@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>한글 아토바쉬 암호기</title>
-
-    <!-- SF Pro 스타일 웹폰트 -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-
     <style>
         * {
             margin: 0;
@@ -15,524 +11,357 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-bg: #000000;
-            --secondary-bg: #1c1c1e;
-            --card-bg: rgba(255, 255, 255, 0.01);
-            --glass-bg: rgba(255, 255, 255, 0.005);
-            --glass-border: rgba(255, 255, 255, 0.03);
-            --input-bg: rgba(255, 255, 255, 0.01);
-            --text-primary: #ffffff;
-            --text-secondary: #98989d;
-            --text-muted: #636366;
-            --accent: #007aff;
-            --accent-hover: #0984ff;
-            --accent-light: rgba(0, 122, 255, 0.15);
-            --success: #32d74b;
-            --warning: #ff9f0a;
-            --error: #ff453a;
-            --border: rgba(255, 255, 255, 0.03);
-            --shadow: rgba(0, 0, 0, 0.3);
-            --shadow-lg: rgba(0, 0, 0, 0.5);
-        }
-
-        body, html {
-            height: 100%;
-            background: 
-                linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 25%, #2d2d30 50%, #1a1a1a 75%, #0f0f0f 100%),
-                radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(175, 82, 222, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
-            color: var(--text-primary);
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f7f7f8;
+            color: #374151;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        .app {
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            position: relative;
-            overflow-x: hidden;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
 
-        /* 강화된 배경 효과 */
-        .app::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 15% 15%, rgba(0, 122, 255, 0.08) 0%, transparent 60%),
-                radial-gradient(circle at 85% 85%, rgba(175, 82, 222, 0.06) 0%, transparent 60%),
-                radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-                radial-gradient(circle at 60% 40%, rgba(0, 255, 157, 0.04) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            z-index: 10;
-            position: relative;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-            text-shadow: 
-                0 2px 20px rgba(0, 0, 0, 0.3),
-                0 4px 40px rgba(255, 255, 255, 0.1);
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-        }
-
-        .subtitle {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1.25rem;
-            font-weight: 400;
-            letter-spacing: 0.01em;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 700px;
-            background: var(--card-bg);
-            backdrop-filter: blur(120px);
-            -webkit-backdrop-filter: blur(120px);
-            border-radius: 32px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 
-                0 20px 80px rgba(0, 0, 0, 0.3),
-                0 8px 32px rgba(0, 0, 0, 0.2),
-                0 2px 8px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.03),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.01);
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            z-index: 5;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-        }
-
-        .container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(0, 122, 255, 0.02) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
-
-        select, textarea {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            font-size: 1rem;
-            border-radius: 24px;
-            background: var(--input-bg);
-            backdrop-filter: blur(80px);
-            -webkit-backdrop-filter: blur(80px);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            font-family: inherit;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            resize: vertical;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.15),
-                0 2px 8px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.02),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.01);
-        }
-
-        select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 
-                0 0 0 3px var(--accent-light),
-                0 12px 48px rgba(0, 0, 0, 0.25),
-                0 4px 16px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.04),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.02);
-            background: rgba(255, 255, 255, 0.02);
-            transform: translateY(-2px);
-            backdrop-filter: blur(100px);
-            -webkit-backdrop-filter: blur(100px);
-        }
-
-        textarea {
-            min-height: 120px;
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            line-height: 1.5;
-        }
-
-        .convert-btn {
-            width: 100%;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            background: var(--accent);
-            border: none;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 
-                0 6px 24px rgba(0, 122, 255, 0.25),
-                0 2px 8px rgba(0, 122, 255, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .convert-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .convert-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 
-                0 12px 36px rgba(0, 122, 255, 0.35),
-                0 4px 16px rgba(0, 122, 255, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        .convert-btn:hover::before {
-            opacity: 1;
-        }
-
-        .convert-btn:active {
-            transform: translateY(0);
-        }
-
-        .output-section {
-            margin-top: 1.5rem;
-            position: relative;
-        }
-
-        .output-container {
-            position: relative;
-            background: var(--glass-bg);
-            backdrop-filter: blur(100px);
-            -webkit-backdrop-filter: blur(100px);
-            border-radius: 28px;
-            border: 1px solid var(--glass-border);
-            min-height: 150px;
-            overflow: hidden;
-            box-shadow: 
-                0 16px 64px rgba(0, 0, 0, 0.2),
-                0 4px 16px rgba(0, 0, 0, 0.15),
-                0 1px 4px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.02),
-                inset 0 -1px 0 rgba(255, 255, 255, 0.01);
-        }
-
-        .output-header {
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 1.5rem;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.25rem;
-            background: rgba(255, 255, 255, 0.005);
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(60px);
-            -webkit-backdrop-filter: blur(60px);
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .output-title {
-            font-size: 0.875rem;
+        .header h1 {
+            font-size: 1.25rem;
             font-weight: 600;
-            color: var(--text-primary);
+            color: #111827;
         }
 
-        .copy-btn {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
+        .method-toggle {
+            display: flex;
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 2px;
+            gap: 2px;
+        }
+
+        .method-option {
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: transparent;
+            border: none;
             cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 32px;
-            transition: all 0.3s ease;
             font-size: 0.875rem;
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            box-shadow: 
-                0 4px 16px rgba(0, 0, 0, 0.12),
-                0 1px 4px rgba(0, 0, 0, 0.08),
-                inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            transition: all 0.2s;
+            color: #6b7280;
         }
 
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.03);
-            transform: translateY(-2px);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.2),
-                0 2px 8px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(60px);
-            -webkit-backdrop-filter: blur(60px);
+        .method-option.active {
+            background: white;
+            color: #111827;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
-        .copy-btn.copied {
-            background: var(--success);
-            color: white;
-            border-color: var(--success);
-        }
-
-        #output {
-            padding: 1.5rem 1.25rem;
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: var(--text-primary);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            max-height: 300px;
+        .chat-container {
+            flex: 1;
             overflow-y: auto;
-            min-height: 100px;
+            padding: 1rem;
         }
 
-        .empty-state {
+        .message {
+            margin-bottom: 1.5rem;
             display: flex;
-            flex-direction: column;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            height: 120px;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        .empty-state svg {
-            width: 2rem;
-            height: 2rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.6;
-        }
-
-        .footer {
-            margin-top: 3rem;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.4);
+            font-weight: 600;
             font-size: 0.875rem;
-            font-weight: 400;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
         }
 
-        /* 애플 다크 모드 스크롤바 */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .avatar.user {
+            background: #10b981;
+            color: white;
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 4px;
+        .avatar.bot {
+            background: #3b82f6;
+            color: white;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            transition: background 0.3s ease;
+        .message-content {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            position: relative;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
+        .message.user .message-content {
+            background: #10b981;
+            color: white;
+        }
+
+        .message.bot .message-content {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .message-content pre {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.875rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content pre {
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .app {
-                padding: 1rem;
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .container {
-                padding: 1.5rem;
-            }
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: inherit;
+            opacity: 0;
+            transition: opacity 0.2s;
         }
 
-        /* 애니메이션 */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .message-content:hover .copy-btn {
+            opacity: 1;
         }
 
-        .container {
-            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        .copy-btn:hover {
+            background: rgba(0, 0, 0, 0.2);
         }
 
-        /* 알림 스타일 */
+        .input-container {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-end;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 0.75rem;
+            max-width: 100%;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea {
+            flex: 1;
+            border: none;
+            outline: none;
+            resize: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.5;
+            min-height: 24px;
+            max-height: 200px;
+        }
+
+        .send-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            background: #2563eb;
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+
+        .welcome-message h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #111827;
+        }
+
+        .welcome-message p {
+            margin-bottom: 1rem;
+        }
+
+        .example-prompts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .example-prompt {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-prompt:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-prompt h3 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #111827;
+        }
+
+        .example-prompt p {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
         .notification {
             position: fixed;
-            top: 80px;
+            top: 20px;
             right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: 16px;
+            background: #10b981;
             color: white;
-            font-weight: 500;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             z-index: 1000;
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 
-                0 12px 48px rgba(0, 0, 0, 0.25),
-                0 4px 16px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .notification.success {
-            background: rgba(50, 215, 75, 0.8);
-        }
-
-        .notification.warning {
-            background: rgba(255, 159, 10, 0.8);
+            animation: slideIn 0.3s ease;
         }
 
         .notification.error {
-            background: rgba(255, 69, 58, 0.8);
+            background: #ef4444;
         }
 
         @keyframes slideIn {
-            from { 
-                transform: translateX(100%) translateY(-10px); 
-                opacity: 0; 
+            from {
+                transform: translateX(100%);
+                opacity: 0;
             }
-            to { 
-                transform: translateX(0) translateY(0); 
-                opacity: 1; 
-            }
-        }
-
-        @keyframes slideOut {
-            from { 
-                transform: translateX(0) translateY(0); 
-                opacity: 1; 
-            }
-            to { 
-                transform: translateX(100%) translateY(-10px); 
-                opacity: 0; 
+            to {
+                transform: translateX(0);
+                opacity: 1;
             }
         }
 
-        .notification {
-            animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .notification.slide-out {
-            animation: slideOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        @media (max-width: 768px) {
+            .container {
+                box-shadow: none;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+            
+            .example-prompts {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="app">
-        <header>
+    <div class="container">
+        <div class="header">
             <h1>한글 아토바쉬 암호기</h1>
-            <p class="subtitle">Korean Atbash Cipher</p>
-        </header>
-
-        <main class="container">
-            <div class="form-group">
-                <label for="method">암호화 방식</label>
-                <select id="method">
-                    <option value="unicode">유니코드 완성형 대칭 치환</option>
-                    <option value="jamo">초성·중성·종성 자모 대칭 치환</option>
-                </select>
+            <div class="method-toggle">
+                <button class="method-option active" data-method="unicode">유니코드</button>
+                <button class="method-option" data-method="jamo">자모</button>
             </div>
+        </div>
 
-            <div class="form-group">
-                <label for="input">원문 입력</label>
-                <textarea id="input" placeholder="한글 문장을 입력하세요..."></textarea>
-            </div>
-
-            <button class="convert-btn" onclick="convert()">
-                <span>변환하기</span>
-            </button>
-
-            <div class="output-section">
-                <div class="output-container">
-                    <div class="output-header">
-                        <span class="output-title">변환 결과</span>
-                        <button class="copy-btn" onclick="copyOutput()">
-                            <span id="copyIcon">📋</span>
-                            <span id="copyText">복사</span>
-                        </button>
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-message">
+                <h2>한글 아토바쉬 암호기</h2>
+                <p>한글 텍스트를 아토바쉬 암호로 변환하거나 복호화할 수 있습니다.</p>
+                <p>아래 예시를 클릭하거나 직접 텍스트를 입력해보세요.</p>
+                
+                <div class="example-prompts">
+                    <div class="example-prompt" onclick="sendExample('안녕하세요')">
+                        <h3>기본 인사말</h3>
+                        <p>안녕하세요</p>
                     </div>
-                    <div id="output">
-                        <div class="empty-state">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14,2 14,8 20,8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10,9 9,9 8,9"></polyline>
-                            </svg>
-                            <span>변환 결과가 여기에 표시됩니다</span>
-                        </div>
+                    <div class="example-prompt" onclick="sendExample('한글 아토바쉬 암호화')">
+                        <h3>암호화 예시</h3>
+                        <p>한글 아토바쉬 암호화</p>
+                    </div>
+                    <div class="example-prompt" onclick="sendExample('비밀 메시지입니다')">
+                        <h3>비밀 메시지</h3>
+                        <p>비밀 메시지입니다</p>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <footer class="footer">
-            <p>© 2025 제민규의 아토바쉬 암호기</p>
-        </footer>
+        <div class="input-container">
+            <div class="input-wrapper">
+                <textarea 
+                    id="messageInput" 
+                    placeholder="한글 텍스트를 입력하세요..."
+                    rows="1"
+                ></textarea>
+                <button class="send-btn" onclick="sendMessage()">
+                    <span>전송</span>
+                    <span>↗</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -542,6 +371,9 @@
 
         const HANGUL_START = 0xAC00;
         const HANGUL_END = 0xD7A3;
+
+        let currentMethod = 'unicode';
+        let messageId = 0;
 
         function atbashUnicode(ch) {
             const code = ch.charCodeAt(0);
@@ -570,110 +402,109 @@
             return String.fromCharCode(newCode);
         }
 
-        function convert() {
-            const method = document.getElementById("method").value;
-            const input = document.getElementById("input").value;
-            const outputDiv = document.getElementById("output");
-            
-            if (!input.trim()) {
-                outputDiv.innerHTML = `
-                    <div class="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14,2 14,8 20,8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10,9 9,9 8,9"></polyline>
-                        </svg>
-                        <span>변환할 텍스트를 입력해주세요</span>
-                    </div>
-                `;
-                return;
+        function convertText(text, method) {
+            let result = "";
+            for (let ch of text) {
+                result += (method === "unicode") ? atbashUnicode(ch) : atbashJamo(ch);
             }
-
-            let output = "";
-            for (let ch of input) {
-                output += (method === "unicode") ? atbashUnicode(ch) : atbashJamo(ch);
-            }
-
-            outputDiv.textContent = output;
-            resetCopyButton();
+            return result;
         }
 
-        function copyOutput() {
-            const outputDiv = document.getElementById("output");
-            const outputText = outputDiv.textContent;
-            
-            if (!outputText || outputText.includes("변환 결과가 여기에 표시됩니다") || outputText.includes("변환할 텍스트를 입력해주세요")) {
-                showNotification("복사할 내용이 없습니다", "warning");
-                return;
+        function addMessage(content, isUser = false) {
+            const chatContainer = document.getElementById('chatContainer');
+            const welcomeMessage = chatContainer.querySelector('.welcome-message');
+            if (welcomeMessage) {
+                welcomeMessage.remove();
             }
 
-            navigator.clipboard.writeText(outputText).then(() => {
-                showCopySuccess();
-                showNotification("클립보드에 복사되었습니다", "success");
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.innerHTML = `
+                <div class="avatar ${isUser ? 'user' : 'bot'}">
+                    ${isUser ? '나' : 'AI'}
+                </div>
+                <div class="message-content">
+                    ${content}
+                </div>
+            `;
+
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (!text) return;
+
+            // 사용자 메시지 추가
+            addMessage(text, true);
+            
+            // 입력 필드 초기화
+            input.value = '';
+            input.style.height = 'auto';
+
+            // AI 응답 생성
+            const converted = convertText(text, currentMethod);
+            const methodName = currentMethod === 'unicode' ? '유니코드 완성형 대칭 치환' : '초성·중성·종성 자모 대칭 치환';
+            
+            const response = `
+                <strong>${methodName}</strong>으로 변환했습니다:
+                <pre>${converted}<button class="copy-btn" onclick="copyText('${converted.replace(/'/g, "\\'")}')">복사</button></pre>
+                ${text !== converted ? `<small>원문: ${text}</small>` : ''}
+            `;
+
+            setTimeout(() => {
+                addMessage(response);
+            }, 500);
+        }
+
+        function sendExample(text) {
+            const input = document.getElementById('messageInput');
+            input.value = text;
+            sendMessage();
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('복사되었습니다!');
             }).catch(() => {
-                showNotification("복사에 실패했습니다", "error");
+                showNotification('복사에 실패했습니다.', 'error');
             });
         }
 
-        function showCopySuccess() {
-            const copyIcon = document.getElementById("copyIcon");
-            const copyText = document.getElementById("copyText");
-            const copyBtn = document.querySelector(".copy-btn");
-            
-            copyIcon.textContent = "✓";
-            copyText.textContent = "복사됨";
-            copyBtn.classList.add("copied");
-            
-            setTimeout(resetCopyButton, 2000);
-        }
-
-        function resetCopyButton() {
-            const copyIcon = document.getElementById("copyIcon");
-            const copyText = document.getElementById("copyText");
-            const copyBtn = document.querySelector(".copy-btn");
-            
-            copyIcon.textContent = "📋";
-            copyText.textContent = "복사";
-            copyBtn.classList.remove("copied");
-        }
-
-        function showNotification(message, type) {
-            const notification = document.createElement("div");
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             notification.textContent = message;
             document.body.appendChild(notification);
 
             setTimeout(() => {
-                notification.classList.add("slide-out");
-                setTimeout(() => notification.remove(), 500);
+                notification.remove();
             }, 3000);
         }
 
-        // 입력 필드 이벤트 리스너
-        document.getElementById("input").addEventListener("input", function() {
-            if (this.value.trim() === "") {
-                const outputDiv = document.getElementById("output");
-                outputDiv.innerHTML = `
-                    <div class="empty-state">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14,2 14,8 20,8"></polyline>
-                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                            <polyline points="10,9 9,9 8,9"></polyline>
-                        </svg>
-                        <span>변환 결과가 여기에 표시됩니다</span>
-                    </div>
-                `;
-            }
+        // 메소드 토글 이벤트
+        document.querySelectorAll('.method-option').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.method-option').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentMethod = button.dataset.method;
+            });
         });
 
-        // Enter 키로 변환 실행
-        document.getElementById("input").addEventListener("keydown", function(event) {
-            if (event.ctrlKey && event.key === "Enter") {
-                convert();
+        // 텍스트 영역 자동 크기 조정
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+        });
+
+        // Enter 키로 전송
+        document.getElementById('messageInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
             }
         });
     </script>
