@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>한글 아토바쉬 암호기</title>
 
-    <!-- Pretendard 웹폰트 -->
-    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" rel="stylesheet" />
+    <!-- SF Pro 스타일 웹폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
     <style>
         * {
@@ -16,30 +16,33 @@
         }
 
         :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #1a1a25;
-            --bg-card: #242438;
-            --bg-input: #2d2d42;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent: #6366f1;
-            --accent-hover: #8b5cf6;
-            --accent-glow: rgba(99, 102, 241, 0.3);
-            --border: #374151;
-            --border-focus: #6366f1;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --shadow: rgba(0, 0, 0, 0.5);
-            --shadow-lg: rgba(0, 0, 0, 0.8);
-            --glass: rgba(255, 255, 255, 0.05);
+            --primary-bg: #000000;
+            --secondary-bg: #1c1c1e;
+            --card-bg: rgba(28, 28, 30, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #98989d;
+            --text-muted: #636366;
+            --accent: #007aff;
+            --accent-hover: #0984ff;
+            --accent-light: rgba(0, 122, 255, 0.15);
+            --success: #32d74b;
+            --warning: #ff9f0a;
+            --error: #ff453a;
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-lg: rgba(0, 0, 0, 0.5);
         }
 
         body, html {
             height: 100%;
-            background: radial-gradient(ellipse at center, #1a1a25 0%, #0a0a0f 100%);
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: 
+                linear-gradient(135deg, #1a1a1a 0%, #2d2d30 50%, #1a1a1a 100%),
+                radial-gradient(circle at 30% 30%, rgba(0, 122, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(175, 82, 222, 0.08) 0%, transparent 50%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
             color: var(--text-primary);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
@@ -56,7 +59,7 @@
             overflow-x: hidden;
         }
 
-        /* 배경 애니메이션 */
+        /* 애플 다크 모드 배경 효과 */
         .app::before {
             content: '';
             position: fixed;
@@ -65,49 +68,53 @@
             right: 0;
             bottom: 0;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+                radial-gradient(circle at 20% 20%, rgba(0, 122, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(175, 82, 222, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
             pointer-events: none;
-            z-index: -1;
+            z-index: 1;
         }
 
         header {
             text-align: center;
             margin-bottom: 3rem;
             z-index: 10;
+            position: relative;
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #10b981);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px var(--accent-glow);
+            color: white;
             margin-bottom: 0.5rem;
-            letter-spacing: -0.025em;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
         .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.25rem;
             font-weight: 400;
+            letter-spacing: 0.01em;
         }
 
         .container {
             width: 100%;
-            max-width: 800px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
+            max-width: 700px;
+            background: var(--card-bg);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 20px;
             border: 1px solid var(--glass-border);
-            box-shadow: 0 20px 40px var(--shadow-lg);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
             padding: 2.5rem;
             position: relative;
             overflow: hidden;
+            z-index: 5;
         }
 
         .container::before {
@@ -117,61 +124,62 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
         }
 
         .form-group {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
             font-weight: 600;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             color: var(--text-primary);
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 0.9rem;
         }
 
         select, textarea {
             width: 100%;
-            padding: 1rem 1.25rem;
+            padding: 0.875rem 1rem;
             font-size: 1rem;
             border-radius: 12px;
-            background: var(--bg-input);
+            background: var(--input-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             color: var(--text-primary);
             font-family: inherit;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             resize: vertical;
         }
 
         select:focus, textarea:focus {
             outline: none;
-            border-color: var(--border-focus);
-            box-shadow: 0 0 0 3px var(--accent-glow);
-            background: var(--bg-card);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-1px);
         }
 
         textarea {
             min-height: 120px;
-            font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
             line-height: 1.5;
         }
 
         .convert-btn {
             width: 100%;
-            padding: 1.25rem 2rem;
+            padding: 1rem 2rem;
             font-size: 1.1rem;
             font-weight: 600;
             color: white;
-            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            background: var(--accent);
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px var(--accent-glow);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -180,20 +188,22 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .convert-btn:hover {
+            background: var(--accent-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow);
+            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.4);
         }
 
         .convert-btn:hover::before {
-            left: 100%;
+            opacity: 1;
         }
 
         .convert-btn:active {
@@ -201,17 +211,22 @@
         }
 
         .output-section {
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             position: relative;
         }
 
         .output-container {
             position: relative;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
             min-height: 150px;
             overflow: hidden;
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
         .output-header {
@@ -219,44 +234,50 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 1.25rem;
-            background: var(--bg-card);
+            background: rgba(255, 255, 255, 0.03);
             border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .output-title {
             font-size: 0.875rem;
             font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: var(--text-primary);
         }
 
         .copy-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
             cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             transition: all 0.3s ease;
-            font-size: 1.1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .copy-btn:hover {
-            color: var(--accent);
-            background: var(--glass);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .copy-btn.copied {
-            color: var(--success);
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
         }
 
         #output {
             padding: 1.5rem 1.25rem;
-            font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
             font-size: 1rem;
             line-height: 1.6;
             color: var(--text-primary);
@@ -281,34 +302,35 @@
             width: 2rem;
             height: 2rem;
             margin-bottom: 0.5rem;
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
         .footer {
             margin-top: 3rem;
             text-align: center;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.4);
             font-size: 0.875rem;
+            font-weight: 400;
         }
 
-        /* 스크롤바 스타일 */
+        /* 애플 다크 모드 스크롤바 */
         ::-webkit-scrollbar {
             width: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--border);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 4px;
             transition: background 0.3s ease;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent);
+            background: rgba(255, 255, 255, 0.25);
         }
 
         /* 반응형 디자인 */
@@ -327,10 +349,10 @@
         }
 
         /* 애니메이션 */
-        @keyframes fadeIn {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -339,7 +361,65 @@
         }
 
         .container {
-            animation: fadeIn 0.6s ease-out;
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* 알림 스타일 */
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification.success {
+            background: rgba(50, 215, 75, 0.9);
+        }
+
+        .notification.warning {
+            background: rgba(255, 159, 10, 0.9);
+        }
+
+        .notification.error {
+            background: rgba(255, 69, 58, 0.9);
+        }
+
+        @keyframes slideIn {
+            from { 
+                transform: translateX(100%) translateY(-10px); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateX(0) translateY(0); 
+                opacity: 1; 
+            }
+        }
+
+        @keyframes slideOut {
+            from { 
+                transform: translateX(0) translateY(0); 
+                opacity: 1; 
+            }
+            to { 
+                transform: translateX(100%) translateY(-10px); 
+                opacity: 0; 
+            }
+        }
+
+        .notification {
+            animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .notification.slide-out {
+            animation: slideOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
     </style>
 </head>
@@ -503,44 +583,16 @@
         }
 
         function showNotification(message, type) {
-            // 간단한 알림 표시 (실제 구현에서는 더 세련된 토스트 메시지를 사용할 수 있음)
             const notification = document.createElement("div");
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 1rem 1.5rem;
-                border-radius: 8px;
-                color: white;
-                font-weight: 500;
-                z-index: 1000;
-                animation: slideIn 0.3s ease-out;
-                ${type === "success" ? "background: #10b981;" : 
-                  type === "warning" ? "background: #f59e0b;" : 
-                  "background: #ef4444;"}
-            `;
+            notification.className = `notification ${type}`;
             notification.textContent = message;
             document.body.appendChild(notification);
 
             setTimeout(() => {
-                notification.style.animation = "slideOut 0.3s ease-in forwards";
-                setTimeout(() => notification.remove(), 300);
-            }, 2000);
+                notification.classList.add("slide-out");
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
         }
-
-        // 애니메이션 CSS 추가
-        const style = document.createElement("style");
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
 
         // 입력 필드 이벤트 리스너
         document.getElementById("input").addEventListener("input", function() {
