@@ -493,13 +493,21 @@
         // MutationObserver 설정
         const chatContainer = document.getElementById('chatContainer');
         const observer = new MutationObserver(() => {
-            const inputContainer = document.getElementById('inputContainer');
             const lastMessage = chatContainer.lastElementChild;
             if (lastMessage && lastMessage.classList.contains('message')) {
-                lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                // 입력창도 화면에 보이도록
+                // 메시지가 입력창에 가려지지 않도록 여유 공간을 두고 스크롤
                 setTimeout(() => {
-                    inputContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    const inputContainer = document.getElementById('inputContainer');
+                    const inputHeight = inputContainer.offsetHeight;
+                    const messageRect = lastMessage.getBoundingClientRect();
+                    const containerRect = chatContainer.getBoundingClientRect();
+                    
+                    // 메시지 하단이 입력창 위쪽에 오도록 스크롤
+                    const targetTop = messageRect.bottom - containerRect.top - containerRect.height + inputHeight + 20;
+                    
+                    if (targetTop > 0) {
+                        chatContainer.scrollTop += targetTop;
+                    }
                 }, 100);
             }
         });
