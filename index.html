@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" />
 
     <style>
-        /* 전체 초기화 */
         * {
             margin: 0;
             padding: 0;
@@ -18,7 +17,6 @@
 
         body, html {
             height: 100%;
-            /* 기존 배경 대신 요청 이미지로 변경 */
             background: url('images/IMG_0920.png') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Spoqa Han Sans Neo', 'Nanum Gothic', 'Noto Sans KR', sans-serif;
@@ -28,6 +26,8 @@
             align-items: center;
             padding: 2rem;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         header {
@@ -35,101 +35,105 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: linear-gradient(135deg, #2c003e, #3b0070);
+            background: linear-gradient(135deg, #3a0060, #5a2a9f);
             padding: 1.5rem 0;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
             z-index: 1000;
         }
 
         h1 {
             font-weight: 900;
-            font-size: 2.5rem;
+            font-size: 2.7rem;
             letter-spacing: -0.02em;
-            color: #c1b9ff;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            color: #d1c9ff;
+            text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8);
             user-select: none;
         }
 
         .container {
             width: 100%;
             max-width: 720px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2.5rem 3rem;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-top: 6rem;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 22px;
+            padding: 2.8rem 3.5rem;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            margin-top: 6.2rem;
         }
 
         label {
             display: block;
             font-weight: 700;
-            margin-bottom: 0.6rem;
-            color: #c1b9ff;
+            margin-bottom: 0.65rem;
+            color: #b8aaff;
+            letter-spacing: 0.03em;
+            user-select: none;
         }
 
         select, textarea {
             width: 100%;
-            padding: 1rem 1.2rem;
-            font-size: 1.15rem;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 1.1rem 1.3rem;
+            font-size: 1.18rem;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.14);
             border: none;
-            color: #f0eaff;
+            color: #f4eeff;
             font-family: inherit;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.28);
             resize: vertical;
             text-align: left;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: background-color 0.35s ease, box-shadow 0.35s ease;
             font-weight: 500;
-            letter-spacing: 0.01em;
+            letter-spacing: 0.015em;
         }
 
         select:focus, textarea:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px #bb9fff;
+            background: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 0 22px #a792ff;
         }
 
-        button {
-            margin-top: 1.5rem;
+        button.convert-btn {
+            margin-top: 1.8rem;
             width: 100%;
-            padding: 1.3rem 0;
-            font-size: 1.25rem;
+            padding: 1.35rem 0;
+            font-size: 1.28rem;
             font-weight: 700;
             color: #f0eaff;
-            background: linear-gradient(135deg, #5f36cd, #8a64e6);
+            background: linear-gradient(135deg, #6a45f7, #9e7dff);
             border: none;
-            border-radius: 14px;
+            border-radius: 16px;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(105, 60, 255, 0.7);
-            transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+            box-shadow: 0 7px 22px rgba(100, 60, 255, 0.85);
+            transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
         }
 
-        button:hover {
-            background: linear-gradient(135deg, #8865e3, #ad94ff);
-            transform: scale(1.02);
-            box-shadow: 0 12px 24px rgba(130, 90, 255, 0.9);
+        button.convert-btn:hover {
+            background: linear-gradient(135deg, #8f6eff, #c5aaff);
+            transform: scale(1.04);
+            box-shadow: 0 15px 36px rgba(140, 100, 255, 1);
         }
 
         #output {
             position: relative;
-            margin-top: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            min-height: 140px;
-            padding: 1.5rem 1.8rem;
-            font-size: 1.2rem;
-            color: #f0eaff;
+            margin-top: 1.3rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            min-height: 160px;
+            padding: 1.7rem 2.2rem 1.7rem 1.7rem;
+            font-size: 1.25rem;
+            color: #ede8ff;
             white-space: pre-wrap;
             user-select: text;
-            font-weight: 500;
+            font-weight: 600;
             text-align: left;
-            font-family: inherit;
-            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2);
+            font-family: 'Consolas', 'Courier New', monospace, inherit;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3);
+            overflow-wrap: break-word;
+            overflow-y: auto;
         }
 
         #outputText {
@@ -138,27 +142,46 @@
 
         #copyBtn {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 10px;
+            right: 10px;
             background: none;
             border: none;
-            font-size: 0.8rem;
+            font-size: 1.3rem;
             cursor: pointer;
-            color: #f0eaff;
-            transition: color 0.3s ease, transform 0.3s ease;
+            color: #d6ccffcc;
+            transition: color 0.25s ease, transform 0.25s ease;
+            user-select: none;
+            padding: 2px 5px;
+            border-radius: 6px;
         }
 
         #copyBtn:hover {
-            color: #bb86fc;
-            transform: scale(1.2);
+            color: #a88fff;
+            transform: scale(1.3);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .footer {
-            margin-top: 2.3rem;
-            font-size: 0.9rem;
+            margin-top: 2.6rem;
+            font-size: 0.92rem;
             text-align: center;
-            color: #9e90ffcc;
+            color: #a09bcbcc;
             user-select: none;
+        }
+
+        /* 스크롤바 스타일 (출력 영역) */
+        #output::-webkit-scrollbar {
+            width: 8px;
+        }
+        #output::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #output::-webkit-scrollbar-thumb {
+            background: rgba(168, 140, 255, 0.6);
+            border-radius: 6px;
+        }
+        #output::-webkit-scrollbar-thumb:hover {
+            background: rgba(168, 140, 255, 0.9);
         }
     </style>
 </head>
@@ -178,7 +201,7 @@
     <label for="input">원문 입력</label>
     <textarea id="input" rows="5" placeholder="한글 문장을 입력하세요..."></textarea>
 
-    <button onclick="convert()">변환하기</button>
+    <button class="convert-btn" onclick="convert()">변환하기</button>
 
     <label for="output">변환 결과</label>
     <div id="output" tabindex="0" aria-live="polite" aria-atomic="true">
