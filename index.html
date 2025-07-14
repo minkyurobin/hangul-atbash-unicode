@@ -712,6 +712,13 @@
                 document.querySelectorAll('.method-option').forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
                 currentMethod = button.dataset.method;
+                
+                // 메소드 변경 시 자동으로 설명 메시지 표시
+                if (currentMethod === 'unicode') {
+                    sendExample('unicode');
+                } else if (currentMethod === 'jamo') {
+                    sendExample('jamo');
+                }
             });
         });
 
