@@ -498,8 +498,16 @@
                 // 즉시 스크롤을 맨 아래로 이동
                 chatContainer.scrollTop = chatContainer.scrollHeight;
                 
-                // 추가로 부드러운 스크롤 적용
+                // 추가로 부드러운 스크롤 적용 (더 많은 여유 공간 확보)
                 setTimeout(() => {
+                    const inputContainer = document.getElementById('inputContainer');
+                    const inputHeight = inputContainer.offsetHeight;
+                    
+                    // 입력창 높이 + 추가 여유 공간(40px)만큼 더 스크롤
+                    const extraSpace = inputHeight + 40;
+                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight + extraSpace;
+                    
+                    // 최종적으로 부드러운 스크롤 적용
                     lastMessage.scrollIntoView({ 
                         behavior: 'smooth', 
                         block: 'end',
