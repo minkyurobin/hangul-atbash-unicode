@@ -266,7 +266,7 @@
         .input-wrapper {
             display: flex;
             gap: 0.75rem;
-            align-items: flex-end;
+            align-items: center;
             background: var(--bg-tertiary);
             border: 1px solid var(--border-primary);
             border-radius: 12px;
@@ -500,19 +500,8 @@
                 
                 // 추가로 부드러운 스크롤 적용 (더 많은 여유 공간 확보)
                 setTimeout(() => {
-                    const inputContainer = document.getElementById('inputContainer');
-                    const inputHeight = inputContainer.offsetHeight;
-                    
-                    // 입력창 높이 + 추가 여유 공간(40px)만큼 더 스크롤
-                    const extraSpace = inputHeight + 300;
-                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight + extraSpace;
-                    
-                    // 최종적으로 부드러운 스크롤 적용
-                    lastMessage.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'end',
-                        inline: 'nearest'
-                    });
+                    // 단순하게 맨 아래로 스크롤
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
                 }, 50);
             }
         });
@@ -563,7 +552,8 @@
 
         function convertText(text, method) {
             let result = "";
-            for (let ch of text) {
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
                 result += (method === "unicode") ? atbashUnicode(ch) : atbashJamo(ch);
             }
             return result;
@@ -639,7 +629,7 @@
                 <strong>${methodName}</strong>으로 변환했습니다:
                 <div class="result-container">
                     <pre>${converted}</pre>
-                    <button class="copy-btn" onclick="copyText('${converted.replace(/'/g, "\\'")}')">복사</button>
+                    <button class="copy-btn" onclick="copyText(\`${converted.replace(/`/g, '\\`')}\`)">복사</button>
                 </div>
                 ${text !== converted ? `<small>원문: ${text}</small>` : ''}
             `;
