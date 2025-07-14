@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>한글 아토바쉬 암호기</title>
 
-    <!-- Apple SD Gothic Neo 및 Noto Sans KR 웹폰트 CDN -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- Spoqa Han Sans Neo 웹폰트 CDN -->
+    <link href="https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" />
+
     <style>
         /* 전체 초기화 */
         * {
@@ -17,8 +18,9 @@
 
         body, html {
             height: 100%;
-            background: linear-gradient(135deg, #1a0b2e 0%, #2e004e 50%, #1a0b2e 100%);
-            font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+            background: url('/images/dark-purple-3840x2160-17330.png') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Spoqa Han Sans Neo', 'Nanum Gothic', 'Noto Sans KR', sans-serif;
             color: #f0eaff;
             display: flex;
             flex-direction: column;
@@ -32,7 +34,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(30, 10, 50, 0.8);
+            background: linear-gradient(135deg, #2c003e, #3b0070);
             padding: 1.5rem 0;
             text-align: center;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
@@ -43,7 +45,7 @@
             font-weight: 900;
             font-size: 2.5rem;
             letter-spacing: -0.02em;
-            color: #bb86fc;
+            color: #c1b9ff;
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
             user-select: none;
         }
@@ -51,13 +53,13 @@
         .container {
             width: 100%;
             max-width: 720px;
-            background: rgba(50, 20, 70, 0.5);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 2.5rem 3rem;
-            box-shadow: 0 0 30px #bb86fc;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(187, 134, 252, 0.3);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             margin-top: 6rem;
         }
 
@@ -65,7 +67,7 @@
             display: block;
             font-weight: 700;
             margin-bottom: 0.6rem;
-            color: #d1c4e9;
+            color: #c1b9ff;
         }
 
         select, textarea {
@@ -73,11 +75,11 @@
             padding: 1rem 1.2rem;
             font-size: 1.15rem;
             border-radius: 12px;
-            background: rgba(187, 134, 252, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             color: #f0eaff;
             font-family: inherit;
-            box-shadow: inset 0 0 10px rgba(187, 134, 252, 0.5);
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
             resize: vertical;
             text-align: left;
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
@@ -87,8 +89,8 @@
 
         select:focus, textarea:focus {
             outline: none;
-            background: rgba(187, 134, 252, 0.4);
-            box-shadow: 0 0 15px #bb86fc;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px #bb9fff;
         }
 
         button {
@@ -98,70 +100,63 @@
             font-size: 1.25rem;
             font-weight: 700;
             color: #f0eaff;
-            background: linear-gradient(135deg, #bb86fc, #9d4edd);
+            background: linear-gradient(135deg, #5f36cd, #8a64e6);
             border: none;
             border-radius: 14px;
             cursor: pointer;
-            box-shadow: 0 6px 18px rgba(187, 134, 252, 0.7);
+            box-shadow: 0 6px 18px rgba(105, 60, 255, 0.7);
             transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
         }
 
         button:hover {
-            background: linear-gradient(135deg, #9d4edd, #bb86fc);
+            background: linear-gradient(135deg, #8865e3, #ad94ff);
             transform: scale(1.02);
-            box-shadow: 0 12px 24px rgba(187, 134, 252, 0.9);
+            box-shadow: 0 12px 24px rgba(130, 90, 255, 0.9);
         }
 
         #output {
+            position: relative;
             margin-top: 1rem;
-            background: rgba(50, 20, 70, 0.4);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             min-height: 140px;
-            padding: 2rem;
-            font-size: 1.3rem;
+            padding: 1.5rem 1.8rem;
+            font-size: 1.2rem;
             color: #f0eaff;
             white-space: pre-wrap;
-            user-size: text;
-            font-weight: 400;
+            user-select: text;
+            font-weight: 500;
             text-align: left;
             font-family: inherit;
-            box-shadow: inset 0 0 15px rgba(187, 134, 252, 0.5);
-            line-height: 1.8;
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
-        #output.converted {
-            animation: flash 0.3s;
-        }
-
-        @keyframes flash {
-            0% { background-color: rgba(187, 134, 252, 0.5); }
-            100% { background-color: rgba(50, 20, 70, 0.4); }
+        #outputText {
+            margin: 0;
         }
 
         #copyBtn {
-            margin-top: 0.6rem;
-            background: #9d4edd;
-            padding: 0.8rem 1.5rem;
-            border-radius: 12px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
             border: none;
-            font-weight: 600;
+            font-size: 0.8rem;
             cursor: pointer;
             color: #f0eaff;
-            box-shadow: 0 5px 12px rgba(157, 78, 221, 0.7);
-            transition: background 0.3s ease, transform 0.25s ease;
-            font-size: 1rem;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
         #copyBtn:hover {
-            background: #bb86fc;
-            transform: scale(1.02);
+            color: #bb86fc;
+            transform: scale(1.2);
         }
 
         .footer {
             margin-top: 2.3rem;
             font-size: 0.9rem;
             text-align: center;
-            color: #d1c4e9;
+            color: #9e90ffcc;
             user-select: none;
         }
     </style>
@@ -185,14 +180,16 @@
     <button onclick="convert()">변환하기</button>
 
     <label for="output">변환 결과</label>
-    <div id="output" tabindex="0" aria-live="polite" aria-atomic="true"></div>
-    <button id="copyBtn" onclick="copyOutput()">복사하기</button>
+    <div id="output" tabindex="0" aria-live="polite" aria-atomic="true">
+        <pre id="outputText"></pre>
+        <button id="copyBtn" onclick="copyOutput()" aria-label="복사하기">📋</button>
+    </div>
 
     <div class="footer">© 2025 제민규의 아토바쉬 암호기</div>
 </main>
 
 <script>
-    const CHO = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+    const CHO = ["ㄱ","ㄲ","ㄴ","PARENTHESIS","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
     const JUNG = ["ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"];
     const JONG = ["","ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
 
@@ -201,4 +198,53 @@
 
     function atbashUnicode(ch) {
         const code = ch.charCodeAt(0);
-        if (code >= HANGUL
+        if (code >= HANGUL_START && code <= HANGUL_END) {
+            const offset = code - HANGUL_START;
+            const mirrorOffset = (HANGUL_END - HANGUL_START) - offset;
+            return String.fromCharCode(HANGUL_START + mirrorOffset);
+        }
+        return ch;
+    }
+
+    function atbashJamo(ch) {
+        const code = ch.charCodeAt(0);
+        if (code < HANGUL_START || code > HANGUL_END) return ch;
+
+        const offset = code - HANGUL_START;
+        const jong = offset % 28;
+        const jung = Math.floor(offset / 28) % 21;
+        const cho = Math.floor(offset / (28 * 21));
+
+        const newChoIdx = 18 - cho;  // CHO has 19 elements (0 to 18)
+        const newJungIdx = 20 - jung;  // JUNG has 21 elements (0 to 20)
+        const newJongIdx = jong === 0 ? 0 : 28 - jong;  // JONG has 28 elements (0 to 27), 0 is no jong
+
+        const newCode = HANGUL_START + (newChoIdx * 21 * 28) + (newJungIdx * 28) + newJongIdx;
+        return String.fromCharCode(newCode);
+    }
+
+    function convert() {
+        const method = document.getElementById("method").value;
+        const input = document.getElementById("input").value;
+        let output = "";
+
+        for (let ch of input) {
+            output += (method === "unicode") ? atbashUnicode(ch) : atbashJamo(ch);
+        }
+
+        document.getElementById("outputText").textContent = output;
+    }
+
+    function copyOutput() {
+        const outputText = document.getElementById("outputText").textContent;
+        if (!outputText) return alert("복사할 변환 결과가 없습니다.");
+        navigator.clipboard.writeText(outputText).then(() => {
+            alert("변환 결과가 복사되었습니다!");
+        }, () => {
+            alert("복사 실패! 브라우저에서 클립보드 접근 권한을 허용해주세요.");
+        });
+    }
+</script>
+
+</body>
+</html>
