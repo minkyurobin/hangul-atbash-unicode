@@ -504,8 +504,12 @@
                     const inputContainer = document.getElementById('inputContainer');
                     const inputHeight = inputContainer.offsetHeight;
     
-                    // 스크롤을 맨 아래로 + 입력창 높이만큼 추가
-                    chatContainer.scrollTop = chatContainer.scrollHeight + inputHeight;
+                    // 올바른 계산: scrollHeight - clientHeight가 최대 scrollTop 값
+                    const maxScrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
+                    chatContainer.scrollTop = Math.min(maxScrollTop + inputHeight, maxScrollTop);
+    
+                    // 실제로는 그냥 최대값으로 설정하는 게 맞음
+                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
                 }, 100);
             }
         });
