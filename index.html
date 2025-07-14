@@ -495,21 +495,24 @@
         const observer = new MutationObserver(() => {
             const lastMessage = chatContainer.lastElementChild;
             if (lastMessage && lastMessage.classList.contains('message')) {
-                // 메시지 추가 후 스크롤 처리
+                // 즉시 스크롤을 맨 아래로 이동
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // 추가로 부드러운 스크롤 적용 (더 많은 여유 공간 확보)
                 setTimeout(() => {
-                    // 메시지에 하단 여백 임시 추가
-                    const tempMargin = document.createElement('div');
-                    tempMargin.style.height = '100px';
-                    tempMargin.style.visibility = 'hidden';
-                    chatContainer.appendChild(tempMargin);
+                    const inputContainer = document.getElementById('inputContainer');
+                    const inputHeight = inputContainer.offsetHeight;
                     
-                    // 스크롤을 맨 아래로
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                    // 입력창 높이 + 추가 여유 공간(40px)만큼 더 스크롤
+                    const extraSpace = inputHeight + 300;
+                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight + extraSpace;
                     
-                    // 임시 여백 제거
-                    setTimeout(() => {
-                        tempMargin.remove();
-                    }, 100);
+                    // 최종적으로 부드러운 스크롤 적용
+                    lastMessage.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'end',
+                        inline: 'nearest'
+                    });
                 }, 50);
             }
         });
