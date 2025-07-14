@@ -500,20 +500,13 @@
                 
                 // 추가로 부드러운 스크롤 적용 (더 많은 여유 공간 확보)
                 setTimeout(() => {
+                    // 입력창 높이를 정확히 계산해서 그만큼 더 스크롤
                     const inputContainer = document.getElementById('inputContainer');
                     const inputHeight = inputContainer.offsetHeight;
-                    
-                    // 입력창 높이 + 추가 여유 공간(40px)만큼 더 스크롤
-                    const extraSpace = inputHeight + 300;
-                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight + extraSpace;
-                    
-                    // 최종적으로 부드러운 스크롤 적용
-                    lastMessage.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'end',
-                        inline: 'nearest'
-                    });
-                }, 50);
+    
+                    // 스크롤을 맨 아래로 + 입력창 높이만큼 추가
+                    chatContainer.scrollTop = chatContainer.scrollHeight + inputHeight;
+                }, 100);
             }
         });
         observer.observe(chatContainer, { childList: true });
