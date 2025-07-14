@@ -1,42 +1,202 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>한글 유니코드 아토바쉬 암호기</title>
+  <meta charset="UTF-8" />
+  <title>한글 아토바쉬 암호기 - 받침 포함 & Aesthetic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body { font-family: 'Noto Sans KR', sans-serif; margin: 2rem; background: #fdfdfd; }
-    textarea { width: 100%; height: 100px; font-size: 1rem; }
-    button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; }
-    #output { margin-top: 1rem; font-weight: bold; }
+    /* 기본 스타일 리셋 */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #6b40e5, #2a62ff, #1ee3cf);
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+      color: #eee;
+      padding: 2rem;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .container {
+      background: rgba(255,255,255,0.12);
+      border-radius: 1.5rem;
+      padding: 2.5rem 3rem;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(30,227,207,0.7);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      text-align: center;
+    }
+    h1 {
+      font-weight: 700;
+      font-size: 2.3rem;
+      margin-bottom: 0.3rem;
+      text-shadow: 0 0 15px #00f2ffcc;
+    }
+    p {
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #c5f8ffcc;
+      text-shadow: 0 0 6px #5ef2ff99;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #a3e7ffdd;
+      text-align: left;
+    }
+    select, textarea {
+      width: 100%;
+      padding: 1.1rem 1.2rem;
+      font-size: 1.1rem;
+      margin-bottom: 1.7rem;
+      border-radius: 1rem;
+      border: none;
+      background: rgba(255,255,255,0.15);
+      color: #e1f7ff;
+      box-shadow: inset 0 0 15px #27e0ff88;
+      resize: vertical;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    select:hover, textarea:hover,
+    select:focus, textarea:focus {
+      background: rgba(255,255,255,0.3);
+      outline: none;
+      box-shadow: 0 0 20px #3bf0ffaa;
+      color: #fff;
+    }
+    button {
+      background: linear-gradient(45deg, #24ffe9, #00c9ff);
+      border: none;
+      color: #003c5a;
+      font-weight: 700;
+      font-size: 1.2rem;
+      padding: 1.2rem 0;
+      width: 100%;
+      border-radius: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 8px 18px #0ff2ffcc;
+      transition: all 0.35s ease;
+      text-transform: uppercase;
+      letter-spacing: 1.05px;
+    }
+    button:hover {
+      background: linear-gradient(45deg, #00eaff, #00c6ff);
+      box-shadow: 0 12px 30px #00dfffcc;
+      color: #001f2e;
+      transform: translateY(-3px);
+    }
+    #output {
+      background: rgba(255,255,255,0.1);
+      border-radius: 1.2rem;
+      min-height: 140px;
+      padding: 1.4rem 1.6rem;
+      font-size: 1.2rem;
+      color: #ccf9ff;
+      white-space: pre-wrap;
+      box-shadow: inset 0 0 18px #18e6ffaa;
+      user-select: text;
+      margin-top: 0.3rem;
+      line-height: 1.5;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      text-shadow: 0 0 6px #00c8ffcc;
+    }
+    .footer {
+      margin-top: 2.2rem;
+      font-size: 0.9rem;
+      color: #a2f7ffbb;
+      user-select: none;
+      text-shadow: 0 0 5px #00baffbb;
+    }
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+      .container {
+        padding: 2rem 1.6rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      #output {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>🔐 한글 유니코드 아토바쉬 암호기</h1>
-  <p>한글 완성형 범위 내의 글자를 유니코드 기준으로 아토바쉬 방식으로 암호화합니다.</p>
-  
-  <textarea id="input" placeholder="한글 텍스트 입력"></textarea><br>
-  <button onclick="convert()">🔄 변환하기</button>
-  <div id="output"></div>
+  <div class="container" role="main" aria-label="한글 아토바쉬 암호기">
+    <h1>한글 아토바쉬 암호기</h1>
+    <p>초·중·종성 모든 자모 포함! 은은한 네온 유포리아 감성으로 변환해보세요.</p>
+
+    <label for="method">🔧 암호화 방식 선택:</label>
+    <select id="method" aria-describedby="methodHelp">
+      <option value="unicode">① 유니코드 완성형 대칭 치환</option>
+      <option value="jamo">② 초성·중성·종성 자모 대칭 치환</option>
+    </select>
+
+    <label for="input">✍️ 원문 입력:</label>
+    <textarea id="input" placeholder="한글 문장을 입력하세요..." rows="5" aria-multiline="true"></textarea>
+
+    <button onclick="convert()" aria-label="아토바쉬 변환 실행">🔄 변환하기</button>
+
+    <label for="output">📄 변환 결과:</label>
+    <div id="output" tabindex="0" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="footer">© 2025 민규님의 아토바쉬 암호기</div>
+  </div>
 
   <script>
+    // 초성, 중성, 종성 자모 배열 (받침 포함)
+    const CHO = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+    const JUNG = ["ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"];
+    const JONG = ["","ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+
     const HANGUL_START = 0xAC00;
     const HANGUL_END = 0xD7A3;
 
-    function atbashHangul(char) {
-      const code = char.charCodeAt(0);
+    function atbashUnicode(ch) {
+      const code = ch.charCodeAt(0);
       if (code >= HANGUL_START && code <= HANGUL_END) {
         const offset = code - HANGUL_START;
         const mirrorOffset = (HANGUL_END - HANGUL_START) - offset;
         return String.fromCharCode(HANGUL_START + mirrorOffset);
       }
-      return char; // 비한글 문자 그대로 유지
+      return ch;
     }
 
-    function convert() {
-      const input = document.getElementById("input").value;
-      const result = input.split('').map(atbashHangul).join('');
-      document.getElementById("output").innerText = "🧩 결과: " + result;
-    }
-  </script>
-</body>
-</html>
+    function atbashJamo(ch) {
+      const code = ch.charCodeAt(0);
+      if (code < HANGUL_START || code > HANGUL_END) return ch;
+
+      const offset = code - HANGUL_START;
+      const jong = offset % 28;
+      const jung = Math.floor(offset / 28) % 21;
+      const cho = Math.floor(offset / (28 * 21));
+
+      const newCho = CHO[CHO.length - 1 - cho];
+      const newJung = JUNG[JUNG.length - 1 - jung];
+      const newJong = JONG[JONG.length - 1 - jong];
+
+      const newChoIdx = CHO.indexOf(newCho);
+      const newJungIdx = JUNG.indexOf(newJung);
+      const newJongIdx = JONG.indexOf(newJong);
+
+      const newCode = HANGUL_START + (
