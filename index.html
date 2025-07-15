@@ -500,17 +500,20 @@
                 
                 // 추가로 부드러운 스크롤 적용 (더 많은 여유 공간 확보)
                 setTimeout(() => {
-                    // 입력창 높이를 정확히 계산해서 그만큼 더 스크롤
                     const inputContainer = document.getElementById('inputContainer');
                     const inputHeight = inputContainer.offsetHeight;
-    
-                    // 올바른 계산: scrollHeight - clientHeight가 최대 scrollTop 값
-                    const maxScrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
-                    chatContainer.scrollTop = Math.min(maxScrollTop + inputHeight, maxScrollTop);
-    
-                    // 실제로는 그냥 최대값으로 설정하는 게 맞음
-                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
-                }, 100);
+                    
+                    // 입력창 높이 + 추가 여유 공간(40px)만큼 더 스크롤
+                    const extraSpace = inputHeight + 300;
+                    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight + extraSpace;
+                    
+                    // 최종적으로 부드러운 스크롤 적용
+                    lastMessage.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'end',
+                        inline: 'nearest'
+                    });
+                }, 50);
             }
         });
         observer.observe(chatContainer, { childList: true });
@@ -749,10 +752,6 @@
 
         document.getElementById('messageInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
-                // 한글 조합 중인지 확인
-                if (e.isComposing || e.keyCode === 229) {
-                    return;
-                }
                 e.preventDefault();
                 sendMessage();
             }
